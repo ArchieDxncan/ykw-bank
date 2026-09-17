@@ -42,15 +42,14 @@ it will ask whether you want to save or discard them first.
 
 ## Moving a Yo-kai to a different game
 
-Moving a Yo-kai between two different games isn't a straight copy — the app
+Moving a Yo-kai between two different games isn't a straight copy, the app
 has to rebuild that Yo-kai so it fits the new game's format. Here's roughly
 what survives the move and what doesn't:
 
 **Usually kept:**
 - Nickname
 - Level
-- Experience (in most games)
-- Health
+- Experience
 - Personality/attitude (when moving between the main story games)
 
 **Usually lost, and reset to that game's defaults:**
@@ -58,6 +57,6 @@ what survives the move and what doesn't:
 - Equipment
 - Any other extra details tied to how you originally got that Yo-kai
 
-Also, a Yo-kai can only move to a game if that same Yo-kai actually exists in
+A Yo-kai can only move to a game if that same Yo-kai actually exists in
 that game. A few Yo-kai are exclusive to certain titles and simply can't be
-sent there.
+sent there and obviously Yo-Kai such as Hovernyan from newer games cant be transferred to an older game like YW1.
