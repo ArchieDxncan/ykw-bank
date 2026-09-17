@@ -1,114 +1,55 @@
 # Yo-kai Watch Bank
 
-A Windows desktop transfer bank for **Yo-kai Watch 1–3, Blasters, and
-Busters 2**.
-It reads original encrypted `game*.yw` exports and keeps the local Bank in
-SQLite.
+A simple desktop tool for moving your Yo-kai between your saved games for
+**Yo-kai Watch 1, 2, 3, Blasters, and Busters 2**.
 
-## Version 0.5 interface
+<img width="1282" height="792" alt="aergadsrg" src="https://github.com/user-attachments/assets/334521e2-4b87-45b8-a29c-cfaa565d7c7c" />
 
-- Equal-width **Game Save** and **Local Bank** views
-- Game list columns: Yo-kai, level, and experience
-- Bank list columns: Yo-kai, level, experience, and origin game
-- Multi-select deposit and withdrawal (`Ctrl+A` selects the visible list)
-- Mass transfers preserve the selected Yo-kai's visible top-to-bottom order
-- The Local Bank keeps arrival order instead of alphabetically re-sorting deposited batches
-- Move-only transfers: withdrawing removes the Bank copy, so the interface
-  cannot clone a Yo-kai
-- Manual save workflow: transfers are staged in a working copy until **Save
-  game** is pressed
-- **Discard changes** restores both the game view and Bank to their last saved
-  state
-- One timestamped backup is created when a staged session is committed, not
-  after every transfer
-- Interrupted-session recovery keeps the game and Bank sides synchronized
-- Import and advanced safety tools are hidden from this version's main screen
+## What you can do with it
 
-## Save and transfer support
+- See your current game's Yo-kai and your Bank side by side
+- Check each Yo-kai's level and experience at a glance
+- Select several Yo-kai at once (or grab everyone in a list in one go)
+- Nothing is ever duplicated — once you move a Yo-kai out of the Bank, it's
+  gone from the Bank
+- Nothing changes for real until you choose to save
+- You can undo everything since your last save with one click
+- A backup copy is made automatically every time you save, so you always have
+  something to fall back on
 
-- Configure one save path each for YW1, YW2, YW3, Blasters, and Busters 2
-- Automatic YW1 decryption and re-encryption
-- Automatic YW2/YW3/Blasters/Busters 2 authenticated decryption and
-  re-encryption; keep matching `head.yw`/`head.yw_g` files beside the game save
-- Blasters supports localized base-game and Moon Rabbit Crew `game*.yw_g`
-  saves, including variable 414/418-slot layouts
-- Busters 2 supports the Japanese Sword/Magnum 766-slot layout
-- Reversible same-game deposit and withdrawal for every supported game
-- Bidirectional cross-game conversion when the exact species/form exists in the
-  destination game
-- Safe base-name alias handling, such as YW2 `Hungramps (Starver)` mapping to
-  YW3 `Hungramps`; unrelated reused numeric IDs remain blocked
-- Species/form compatibility blocks for Yo-kai absent from the destination
-- Destination-native record construction and stat validation
-- Preserves nickname, level, current experience, and attitude during cross-game
-  conversion; see the exact conversion contract below
-- Preserves the cached HP fields so transferred Yo-kai do not arrive with zero
-  health
-- Preserves YW2/YW3 IVs exactly and translates YW1's 10-point IV distribution
-  into the equivalent legal 40-point YW2/YW3 distribution
+## Getting started
 
-## Using the Bank
+1. Open **Configure saves…** and point the app at your save file for each
+   game you play.
+2. Pick which game you want to work with from the list.
+3. Click on one or more Yo-kai, then choose **Deposit** (send them from your
+   game into the Bank) or **Withdraw** (bring them from the Bank into your
+   game).
+4. Look over the result before committing to anything.
+5. Click **Save game** to make it permanent, or **Discard changes** to cancel
+   everything you just did.
 
-1. Open **Configure saves…** and select each original `game*.yw` file.
-2. Choose a configured game above the Game Save list.
-3. Highlight one or more Yo-kai and choose **Deposit** or **Withdraw**.
-4. Review the staged result in both lists.
-5. Choose **Save game** to commit, or **Discard changes** to undo the entire
-   pending session.
+If you try to switch games or close the app while you have unsaved changes,
+it will ask whether you want to save or discard them first.
 
-Switching games or closing the app while changes are pending asks whether to
-save or discard them.
+## Moving a Yo-kai to a different game
 
-## Exact transfer contract
+Moving a Yo-kai between two different games isn't a straight copy — the app
+has to rebuild that Yo-kai so it fits the new game's format. Here's roughly
+what survives the move and what doesn't:
 
-Same-game transfers store and restore the complete native Yo-kai record. The
-record bytes are preserved exactly; only its save slot and the save's slot index
-can change.
+**Usually kept:**
+- Nickname
+- Level
+- Experience (in most games)
+- Health
+- Personality/attitude (when moving between the main story games)
 
-Cross-game conversion deliberately creates a new destination-native record:
+**Usually lost, and reset to that game's defaults:**
+- Learned moves
+- Equipment
+- Any other extra details tied to how you originally got that Yo-kai
 
-| Data | YW2 ↔ YW3 | Any transfer involving YW1 | Blasters / Busters 2 |
-| --- | --- | --- | --- |
-| Species/form | Preserved by exact name, or a shared ID whose base species name also matches | Preserved only by an exact destination name | Preserved only when the destination species table contains the same species/form |
-| Nickname | Preserved, subject to destination byte limit | Preserved, subject to destination byte limit | Preserved, subject to destination byte limit |
-| Level | Preserved | Preserved | Preserved |
-| Current per-level XP | Preserved | Preserved | Blasters stores XP; Busters 2 does not |
-| Attitude | Preserved | Preserved across YW1–YW3 | Not stored by either action-game format |
-| Seriousness/loafing | Preserved | YW1 Serious/Stiff maps to matching YW2/YW3 values | Not stored |
-| IV distribution | Preserved exactly when valid | Scaled between the 10- and 40-point rules | Busters 2 uses five stats; Blasters' four-stat distribution is proportionally translated |
-| Moves | Reset | Reset | Rebuilt from the destination game's species defaults |
-| Ownership/record numbers | Recalculated | Recalculated | Recalculated from the destination save |
-| Every other record byte | Dropped/reset | Dropped/reset | Dropped/reset |
-
-YW1 uses a 10-point IV distribution; YW2 and YW3 use 40 points and store HP at
-double scale. Upward conversion scales the complete distribution exactly. A
-YW1 allocation of `1/2/3/1/3`, for example, becomes the legal YW2/YW3 stored
-allocation `8/8/12/4/12` (the first stored value represents four HP points).
-Downward conversion uses deterministic proportional rounding back to 10 points.
-
-“Every other record byte” includes game-specific state that the Bank does not
-yet decode and map. Equipment, move/skill advancement, favorite
-flags, origin/acquisition details, and similar values must therefore be treated
-as not preserved during cross-game conversion.
-
-## Run on Windows
-
-Install Python 3.11 or newer from python.org with “Add Python to PATH” enabled,
-then double-click `run.bat`, or run:
-
-```powershell
-py -3.11 app.py
-```
-
-Application data lives in `%APPDATA%\YoKaiWatchBank` (or beside the app if
-`APPDATA` is unavailable).
-
-## Build a standalone EXE
-
-Double-click `build_windows.bat`. The result is
-`dist\YoKaiWatchBank.exe`.
-
-## Legal note
-
-Use saves you own and export them with lawful save-management tools. This
-project contains no game files or keys.
+Also, a Yo-kai can only move to a game if that same Yo-kai actually exists in
+that game. A few Yo-kai are exclusive to certain titles and simply can't be
+sent there.
