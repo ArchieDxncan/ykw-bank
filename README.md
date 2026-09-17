@@ -5,6 +5,10 @@ A simple desktop tool for moving your Yo-kai between your saved games for
 
 <img width="1282" height="792" alt="aergadsrg" src="https://github.com/user-attachments/assets/334521e2-4b87-45b8-a29c-cfaa565d7c7c" />
 
+<img width="2160" height="2880" alt="IMG_0075" src="https://github.com/user-attachments/assets/661490d1-8d09-4819-91f1-7db4e5339580" />
+<img width="2160" height="2880" alt="IMG_0074" src="https://github.com/user-attachments/assets/5a5737ea-90f0-4b60-b613-ae47cd7c9623" />
+
+
 ## What you can do with it
 
 - See your current game's Yo-kai and your Bank side by side
