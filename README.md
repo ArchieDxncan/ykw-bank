@@ -9,7 +9,11 @@ A simple desktop tool for moving your Yo-kai between your saved games for
 
 - See your current game's Yo-kai and your Bank side by side
 - Check each Yo-kai's level and experience at a glance
-- Select several Yo-kai at once (or grab everyone in a list in one go)
+- Transfer to and from same generation (YW2 -> YW2)
+- Transfer to and from newer generations (YW1 -> YW3)
+- Transfer to and from older generations (YW3 -> YW2)
+
+## Notes
 - Nothing is ever duplicated — once you move a Yo-kai out of the Bank, it's
   gone from the Bank
 - Nothing changes for real until you choose to save
