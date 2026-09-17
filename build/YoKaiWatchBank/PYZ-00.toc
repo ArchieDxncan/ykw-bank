@@ -1,0 +1,830 @@
+('C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+ 'SAVES\\yokai-watch-bank\\build\\YoKaiWatchBank\\PYZ-00.pyz',
+ [('Crypto',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\__init__.py',
+   'PYMODULE'),
+  ('Crypto.Cipher',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\__init__.py',
+   'PYMODULE'),
+  ('Crypto.Cipher.AES',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\AES.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._EKSBlowfish',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_EKSBlowfish.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_cbc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_cbc.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_ccm',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_ccm.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_cfb',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_cfb.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_ctr',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_ctr.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_eax',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_eax.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_ecb',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_ecb.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_gcm',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_gcm.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_kw',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_kw.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_kwp',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_kwp.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_ocb',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_ocb.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_ofb',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_ofb.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_openpgp',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_openpgp.py',
+   'PYMODULE'),
+  ('Crypto.Cipher._mode_siv',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Cipher\\_mode_siv.py',
+   'PYMODULE'),
+  ('Crypto.Hash',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\__init__.py',
+   'PYMODULE'),
+  ('Crypto.Hash.BLAKE2s',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\BLAKE2s.py',
+   'PYMODULE'),
+  ('Crypto.Hash.CMAC',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\CMAC.py',
+   'PYMODULE'),
+  ('Crypto.Hash.HMAC',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\HMAC.py',
+   'PYMODULE'),
+  ('Crypto.Hash.MD5',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\MD5.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA1',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA1.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA224',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA224.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA256',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA256.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA384',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA384.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA3_224',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA3_224.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA3_256',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA3_256.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA3_384',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA3_384.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA3_512',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA3_512.py',
+   'PYMODULE'),
+  ('Crypto.Hash.SHA512',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\SHA512.py',
+   'PYMODULE'),
+  ('Crypto.Hash.keccak',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Hash\\keccak.py',
+   'PYMODULE'),
+  ('Crypto.Protocol',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Protocol\\__init__.py',
+   'PYMODULE'),
+  ('Crypto.Protocol.KDF',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Protocol\\KDF.py',
+   'PYMODULE'),
+  ('Crypto.Random',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Random\\__init__.py',
+   'PYMODULE'),
+  ('Crypto.Util',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\__init__.py',
+   'PYMODULE'),
+  ('Crypto.Util.Counter',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\Counter.py',
+   'PYMODULE'),
+  ('Crypto.Util._cpu_features',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\_cpu_features.py',
+   'PYMODULE'),
+  ('Crypto.Util._file_system',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\_file_system.py',
+   'PYMODULE'),
+  ('Crypto.Util._raw_api',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\_raw_api.py',
+   'PYMODULE'),
+  ('Crypto.Util.number',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\number.py',
+   'PYMODULE'),
+  ('Crypto.Util.py3compat',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\py3compat.py',
+   'PYMODULE'),
+  ('Crypto.Util.strxor',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\Util\\strxor.py',
+   'PYMODULE'),
+  ('__future__',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\__future__.py',
+   'PYMODULE'),
+  ('_compat_pickle',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_compat_pickle.py',
+   'PYMODULE'),
+  ('_compression',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_compression.py',
+   'PYMODULE'),
+  ('_py_abc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_py_abc.py',
+   'PYMODULE'),
+  ('_pydecimal',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_pydecimal.py',
+   'PYMODULE'),
+  ('_strptime',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_strptime.py',
+   'PYMODULE'),
+  ('_threading_local',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_threading_local.py',
+   'PYMODULE'),
+  ('adapters',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\adapters.py',
+   'PYMODULE'),
+  ('argparse',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\argparse.py',
+   'PYMODULE'),
+  ('ast',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ast.py',
+   'PYMODULE'),
+  ('base64',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\base64.py',
+   'PYMODULE'),
+  ('bisect',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\bisect.py',
+   'PYMODULE'),
+  ('bz2',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\bz2.py',
+   'PYMODULE'),
+  ('calendar',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\calendar.py',
+   'PYMODULE'),
+  ('contextlib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\contextlib.py',
+   'PYMODULE'),
+  ('contextvars',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\contextvars.py',
+   'PYMODULE'),
+  ('copy',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\copy.py',
+   'PYMODULE'),
+  ('crypto_all',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\crypto_all.py',
+   'PYMODULE'),
+  ('csv',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\csv.py',
+   'PYMODULE'),
+  ('ctypes',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\__init__.py',
+   'PYMODULE'),
+  ('ctypes._aix',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\_aix.py',
+   'PYMODULE'),
+  ('ctypes._endian',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\_endian.py',
+   'PYMODULE'),
+  ('ctypes.macholib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\macholib\\__init__.py',
+   'PYMODULE'),
+  ('ctypes.macholib.dyld',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\macholib\\dyld.py',
+   'PYMODULE'),
+  ('ctypes.macholib.dylib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\macholib\\dylib.py',
+   'PYMODULE'),
+  ('ctypes.macholib.framework',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\macholib\\framework.py',
+   'PYMODULE'),
+  ('ctypes.util',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ctypes\\util.py',
+   'PYMODULE'),
+  ('dataclasses',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\dataclasses.py',
+   'PYMODULE'),
+  ('datetime',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\datetime.py',
+   'PYMODULE'),
+  ('decimal',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\decimal.py',
+   'PYMODULE'),
+  ('dis',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\dis.py',
+   'PYMODULE'),
+  ('email',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\__init__.py',
+   'PYMODULE'),
+  ('email._encoded_words',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\_encoded_words.py',
+   'PYMODULE'),
+  ('email._header_value_parser',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\_header_value_parser.py',
+   'PYMODULE'),
+  ('email._parseaddr',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\_parseaddr.py',
+   'PYMODULE'),
+  ('email._policybase',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\_policybase.py',
+   'PYMODULE'),
+  ('email.base64mime',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\base64mime.py',
+   'PYMODULE'),
+  ('email.charset',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\charset.py',
+   'PYMODULE'),
+  ('email.contentmanager',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\contentmanager.py',
+   'PYMODULE'),
+  ('email.encoders',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\encoders.py',
+   'PYMODULE'),
+  ('email.errors',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\errors.py',
+   'PYMODULE'),
+  ('email.feedparser',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\feedparser.py',
+   'PYMODULE'),
+  ('email.generator',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\generator.py',
+   'PYMODULE'),
+  ('email.header',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\header.py',
+   'PYMODULE'),
+  ('email.headerregistry',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\headerregistry.py',
+   'PYMODULE'),
+  ('email.iterators',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\iterators.py',
+   'PYMODULE'),
+  ('email.message',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\message.py',
+   'PYMODULE'),
+  ('email.parser',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\parser.py',
+   'PYMODULE'),
+  ('email.policy',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\policy.py',
+   'PYMODULE'),
+  ('email.quoprimime',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\quoprimime.py',
+   'PYMODULE'),
+  ('email.utils',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\email\\utils.py',
+   'PYMODULE'),
+  ('fnmatch',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\fnmatch.py',
+   'PYMODULE'),
+  ('fractions',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\fractions.py',
+   'PYMODULE'),
+  ('ftplib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ftplib.py',
+   'PYMODULE'),
+  ('gamefix',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\__init__.py',
+   'PYMODULE'),
+  ('gamefix.busters',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\busters.py',
+   'PYMODULE'),
+  ('gamefix.gansohonke',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\gansohonke.py',
+   'PYMODULE'),
+  ('gamefix.shinuchi',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\shinuchi.py',
+   'PYMODULE'),
+  ('gamefix.yw3',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\yw3.py',
+   'PYMODULE'),
+  ('getopt',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\getopt.py',
+   'PYMODULE'),
+  ('getpass',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\getpass.py',
+   'PYMODULE'),
+  ('gettext',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\gettext.py',
+   'PYMODULE'),
+  ('gzip',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\gzip.py',
+   'PYMODULE'),
+  ('hashlib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\hashlib.py',
+   'PYMODULE'),
+  ('http',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\http\\__init__.py',
+   'PYMODULE'),
+  ('http.client',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\http\\client.py',
+   'PYMODULE'),
+  ('http.cookiejar',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\http\\cookiejar.py',
+   'PYMODULE'),
+  ('imp',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\imp.py',
+   'PYMODULE'),
+  ('importlib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\__init__.py',
+   'PYMODULE'),
+  ('importlib._abc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\_abc.py',
+   'PYMODULE'),
+  ('importlib._bootstrap',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\_bootstrap.py',
+   'PYMODULE'),
+  ('importlib._bootstrap_external',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\_bootstrap_external.py',
+   'PYMODULE'),
+  ('importlib.abc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\abc.py',
+   'PYMODULE'),
+  ('importlib.machinery',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\machinery.py',
+   'PYMODULE'),
+  ('importlib.metadata',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\__init__.py',
+   'PYMODULE'),
+  ('importlib.metadata._adapters',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\_adapters.py',
+   'PYMODULE'),
+  ('importlib.metadata._collections',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\_collections.py',
+   'PYMODULE'),
+  ('importlib.metadata._functools',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\_functools.py',
+   'PYMODULE'),
+  ('importlib.metadata._itertools',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\_itertools.py',
+   'PYMODULE'),
+  ('importlib.metadata._meta',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\_meta.py',
+   'PYMODULE'),
+  ('importlib.metadata._text',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\metadata\\_text.py',
+   'PYMODULE'),
+  ('importlib.readers',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\readers.py',
+   'PYMODULE'),
+  ('importlib.resources',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\__init__.py',
+   'PYMODULE'),
+  ('importlib.resources._adapters',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\_adapters.py',
+   'PYMODULE'),
+  ('importlib.resources._common',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\_common.py',
+   'PYMODULE'),
+  ('importlib.resources._itertools',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\_itertools.py',
+   'PYMODULE'),
+  ('importlib.resources._legacy',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\_legacy.py',
+   'PYMODULE'),
+  ('importlib.resources.abc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\abc.py',
+   'PYMODULE'),
+  ('importlib.resources.readers',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\resources\\readers.py',
+   'PYMODULE'),
+  ('importlib.util',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\importlib\\util.py',
+   'PYMODULE'),
+  ('inspect',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\inspect.py',
+   'PYMODULE'),
+  ('ipaddress',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ipaddress.py',
+   'PYMODULE'),
+  ('json',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\json\\__init__.py',
+   'PYMODULE'),
+  ('json.decoder',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\json\\decoder.py',
+   'PYMODULE'),
+  ('json.encoder',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\json\\encoder.py',
+   'PYMODULE'),
+  ('json.scanner',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\json\\scanner.py',
+   'PYMODULE'),
+  ('logging',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\logging\\__init__.py',
+   'PYMODULE'),
+  ('lzma',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\lzma.py',
+   'PYMODULE'),
+  ('mimetypes',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\mimetypes.py',
+   'PYMODULE'),
+  ('netrc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\netrc.py',
+   'PYMODULE'),
+  ('nturl2path',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\nturl2path.py',
+   'PYMODULE'),
+  ('numbers',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\numbers.py',
+   'PYMODULE'),
+  ('opcode',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\opcode.py',
+   'PYMODULE'),
+  ('pathlib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\pathlib.py',
+   'PYMODULE'),
+  ('pickle',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\pickle.py',
+   'PYMODULE'),
+  ('platform',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\platform.py',
+   'PYMODULE'),
+  ('pprint',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\pprint.py',
+   'PYMODULE'),
+  ('py_compile',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\py_compile.py',
+   'PYMODULE'),
+  ('quopri',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\quopri.py',
+   'PYMODULE'),
+  ('random',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\random.py',
+   'PYMODULE'),
+  ('save_crypto',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\save_crypto.py',
+   'PYMODULE'),
+  ('selectors',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\selectors.py',
+   'PYMODULE'),
+  ('shlex',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\shlex.py',
+   'PYMODULE'),
+  ('shutil',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\shutil.py',
+   'PYMODULE'),
+  ('signal',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\signal.py',
+   'PYMODULE'),
+  ('socket',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\socket.py',
+   'PYMODULE'),
+  ('sqlite3',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\sqlite3\\__init__.py',
+   'PYMODULE'),
+  ('sqlite3.dbapi2',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\sqlite3\\dbapi2.py',
+   'PYMODULE'),
+  ('sqlite3.dump',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\sqlite3\\dump.py',
+   'PYMODULE'),
+  ('ssl',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ssl.py',
+   'PYMODULE'),
+  ('statistics',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\statistics.py',
+   'PYMODULE'),
+  ('string',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\string.py',
+   'PYMODULE'),
+  ('stringprep',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\stringprep.py',
+   'PYMODULE'),
+  ('subprocess',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\subprocess.py',
+   'PYMODULE'),
+  ('tarfile',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tarfile.py',
+   'PYMODULE'),
+  ('tempfile',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tempfile.py',
+   'PYMODULE'),
+  ('textwrap',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\textwrap.py',
+   'PYMODULE'),
+  ('threading',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\threading.py',
+   'PYMODULE'),
+  ('tkinter',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\__init__.py',
+   'PYMODULE'),
+  ('tkinter.commondialog',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\commondialog.py',
+   'PYMODULE'),
+  ('tkinter.constants',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\constants.py',
+   'PYMODULE'),
+  ('tkinter.dialog',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\dialog.py',
+   'PYMODULE'),
+  ('tkinter.filedialog',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\filedialog.py',
+   'PYMODULE'),
+  ('tkinter.messagebox',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\messagebox.py',
+   'PYMODULE'),
+  ('tkinter.simpledialog',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\simpledialog.py',
+   'PYMODULE'),
+  ('tkinter.ttk',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tkinter\\ttk.py',
+   'PYMODULE'),
+  ('token',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\token.py',
+   'PYMODULE'),
+  ('tokenize',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tokenize.py',
+   'PYMODULE'),
+  ('tracemalloc',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\tracemalloc.py',
+   'PYMODULE'),
+  ('typing',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\typing.py',
+   'PYMODULE'),
+  ('urllib',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\urllib\\__init__.py',
+   'PYMODULE'),
+  ('urllib.error',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\urllib\\error.py',
+   'PYMODULE'),
+  ('urllib.parse',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\urllib\\parse.py',
+   'PYMODULE'),
+  ('urllib.request',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\urllib\\request.py',
+   'PYMODULE'),
+  ('urllib.response',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\urllib\\response.py',
+   'PYMODULE'),
+  ('util',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\util.py',
+   'PYMODULE'),
+  ('uuid',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\uuid.py',
+   'PYMODULE'),
+  ('xml',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\__init__.py',
+   'PYMODULE'),
+  ('xml.etree',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\etree\\__init__.py',
+   'PYMODULE'),
+  ('xml.etree.ElementInclude',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\etree\\ElementInclude.py',
+   'PYMODULE'),
+  ('xml.etree.ElementPath',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\etree\\ElementPath.py',
+   'PYMODULE'),
+  ('xml.etree.ElementTree',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\etree\\ElementTree.py',
+   'PYMODULE'),
+  ('xml.etree.cElementTree',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\etree\\cElementTree.py',
+   'PYMODULE'),
+  ('xml.parsers',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\parsers\\__init__.py',
+   'PYMODULE'),
+  ('xml.parsers.expat',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\parsers\\expat.py',
+   'PYMODULE'),
+  ('xml.sax',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\__init__.py',
+   'PYMODULE'),
+  ('xml.sax._exceptions',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\_exceptions.py',
+   'PYMODULE'),
+  ('xml.sax.expatreader',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\expatreader.py',
+   'PYMODULE'),
+  ('xml.sax.handler',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\handler.py',
+   'PYMODULE'),
+  ('xml.sax.saxutils',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\saxutils.py',
+   'PYMODULE'),
+  ('xml.sax.xmlreader',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\xmlreader.py',
+   'PYMODULE'),
+  ('yw1_dump',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\yw1_dump.py',
+   'PYMODULE'),
+  ('yw_save',
+   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
+   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\yw_save.py',
+   'PYMODULE'),
+  ('zipfile',
+   'C:\\Users\\home '
+   'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\zipfile.py',
+   'PYMODULE')])
