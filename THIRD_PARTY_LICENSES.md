@@ -13,3 +13,11 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+Yo-kai Watch 4 record offsets and signature/name facts were verified against
+the user-supplied Another YW4 Save Editor 0.2.1 build and its public upstream
+repository: `bqsantana/AYw4SaveEditor`. No editor source code is included.
+
+YKSM `bank.ykb` interoperability was implemented from the user-supplied YKSM
+binary's public file contract (magic, version, fields, and CRC-32). No YKSM
+program code is included in this project.

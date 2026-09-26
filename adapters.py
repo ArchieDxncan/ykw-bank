@@ -2,10 +2,12 @@
 from __future__ import annotations
 
 import base64
+import json
 import shutil
 import struct
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 from save_crypto import decrypt_yw1, encrypt_yw1, is_encrypted_yw1
 from crypto_all import (decrypt_original, encrypt_original,
@@ -34,6 +36,24 @@ NATIVE_LAYOUTS = {
     "BUSTERS2": {"slots": 766, "size": 0x4C, "level": 0x48, "xp": None,
                  "xml": "busters2_species.xml"},
 }
+
+YW4_RECORD_OFFSET = 169449
+YW4_RECORD_SIZE = 469
+YW4_SLOTS = 400
+YW4_INDEX_OFFSET = 944897
+YW4_COUNT_OFFSET = 946497
+MIN_YW4_SIZE = YW4_COUNT_OFFSET + 4
+
+
+@lru_cache(maxsize=1)
+def _yw4_data() -> dict:
+    path = Path(__file__).resolve().parent / "data" / "yw4_species.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _yw4_species_map(healthy_only: bool = False) -> dict[int, str]:
+    group = _yw4_data()["healthy" if healthy_only else "all"]
+    return {int.from_bytes(bytes.fromhex(signature), "little"): name for signature, name in group.items()}
 
 def _native_layout(game: str, decrypted: bytes | bytearray | None=None) -> dict:
     layout=dict(NATIVE_LAYOUTS[game])
@@ -154,7 +174,12 @@ def insert_native(game: str, path: Path, raw_record: str, assign_numbers: bool=F
     raise AdapterError(f"The {game} save has no empty Yo-kai slots.")
 
 def species_id_for(game: str, species: str) -> int | None:
-    mapping = YW1_NAMES if game == "YW1" else _species_map(game)
+    if game == "YW4":
+        mapping = _yw4_species_map(healthy_only=True)
+        species = _yw4_data().get("aliases", {}).get(species, species)
+    else:
+        mapping = YW1_NAMES if game == "YW1" else _species_map(game)
+        if species == "Enma": species = "Lord Enma"
     matches=[ident for ident,name in mapping.items() if name==species]
     return matches[-1] if matches else None
 
@@ -176,13 +201,15 @@ def transfer_species_id(source_game: str, target_game: str, species: str) -> int
 def transfer_species_name(source_game: str, target_game: str, species: str) -> str | None:
     ident=transfer_species_id(source_game,target_game,species)
     if ident is None:return None
-    mapping=YW1_NAMES if target_game=="YW1" else _species_map(target_game)
+    mapping=(YW1_NAMES if target_game=="YW1" else
+             _yw4_species_map(healthy_only=True) if target_game=="YW4" else _species_map(target_game))
     return mapping.get(ident)
 
 def compatible_with(game: str, species: str, source_game: str | None=None) -> bool:
     return source_game==game or transfer_species_id(source_game or game,game,species) is not None
 
 def _portable_stats(source_game: str, raw: bytes) -> tuple[bytes,bytes]:
+    if source_game=="YW4": return bytes((16,8,8,8,8)),bytes(5)
     if source_game in ("YW1","YW2"): return raw[0x40:0x45],raw[0x4A:0x4F]
     if source_game=="BUSTERS2": return raw[0x40:0x45],bytes(5)
     if source_game=="BLASTERS": return raw[0x40:0x44]+bytes(1),bytes(5)
@@ -211,7 +238,7 @@ def _portable_temperament(source_game: str, raw: bytes) -> tuple[int,int | None]
         # The modern packed-nibble values for those labels are 0 and 1.
         loaf=0 if raw[0x57] else 1
         return raw[0x55]&0x0F,loaf
-    if source_game in ("BLASTERS","BUSTERS2"):
+    if source_game in ("BLASTERS","BUSTERS2","YW4"):
         return 1,None
     offset=0x54 if source_game=="YW2" else 0x4C
     packed=raw[offset]
@@ -219,12 +246,12 @@ def _portable_temperament(source_game: str, raw: bytes) -> tuple[int,int | None]
 
 def _portable_health(source_game: str, raw: bytes) -> bytes:
     """Return the two cached 16-bit HP fields shared by all three formats."""
-    if source_game in ("BLASTERS","BUSTERS2"):
+    if source_game in ("BLASTERS","BUSTERS2","YW4"):
         return bytes(4)
     offset=0x58 if source_game in ("YW1","YW2") else 0x50
     return raw[offset:offset+4]
 
-XP_OFFSETS = {"YW1":0x38,"YW2":0x34,"YW3":0x28,"BLASTERS":0x38,"BUSTERS2":None}
+XP_OFFSETS = {"YW1":0x38,"YW2":0x34,"YW3":0x28,"BLASTERS":0x38,"BUSTERS2":None,"YW4":132}
 
 def _portable_xp(source_game: str, raw: bytes) -> int:
     """Read the per-level experience progress stored in a Yo-kai record."""
@@ -260,6 +287,13 @@ def _converted_stats(source_game: str, target_game: str, raw: bytes) -> tuple[by
     return iv,sc
 
 def _validate_converted_record(game: str, record: bytes) -> None:
+    if game=="YW4":
+        if len(record)!=YW4_RECORD_SIZE: raise AdapterError("Generated YW4 record has the wrong size.")
+        signature=int.from_bytes(record[72:76],"little")
+        if signature not in _yw4_species_map(): raise AdapterError("Generated YW4 record has an unknown species signature.")
+        level=struct.unpack_from("<I",record,180)[0]
+        if not 1<=level<=99: raise AdapterError("Generated YW4 record has an invalid level.")
+        return
     expected=YW1_RECORD_SIZE if game=="YW1" else NATIVE_LAYOUTS[game]["size"]
     if len(record)!=expected: raise AdapterError(f"Generated {game} record has the wrong size.")
     species_id=struct.unpack_from("<i" if game=="YW1" else "<I",record,4)[0]
@@ -286,11 +320,38 @@ def build_converted_record(source_game: str, target_game: str, species: str,
     # YW3). Only the three unused nibble values are unsafe to carry across.
     if not 0<=attitude<=12:attitude=1
     xp=_portable_xp(source_game,source)
-    size=YW1_RECORD_SIZE if target_game=="YW1" else NATIVE_LAYOUTS[target_game]["size"]
-    record=bytearray(size); struct.pack_into("<I",record,4,target_id&0xFFFFFFFF)
+    size=(YW1_RECORD_SIZE if target_game=="YW1" else
+          YW4_RECORD_SIZE if target_game=="YW4" else NATIVE_LAYOUTS[target_game]["size"])
+    if target_game=="YW4":
+        # YW4's unused slots are initialized records, not zero-filled space.
+        # Their species-independent defaults include skills, flags and several
+        # unknown structures required by the game when it loads the roster.
+        # Start from the exact slot that insert_yw4 will consume.
+        destination_data=destination.read_bytes()
+        if len(destination_data)<MIN_YW4_SIZE:
+            raise AdapterError("File is too small for a Yo-kai Watch 4 data.bin save.")
+        record=None
+        for slot in range(YW4_SLOTS):
+            pos=YW4_RECORD_OFFSET+slot*YW4_RECORD_SIZE
+            if struct.unpack_from("<H",destination_data,pos+2)[0]==0:
+                record=bytearray(destination_data[pos:pos+YW4_RECORD_SIZE]); break
+        if record is None: raise AdapterError("The YW4 save has no empty Yo-kai slots.")
+    else:
+        record=bytearray(size)
+    if target_game!="YW4": struct.pack_into("<I",record,4,target_id&0xFFFFFFFF)
     name_limit=35 if target_game=="YW1" else (27 if target_game=="BLASTERS" else 23)
-    encoded=nickname.encode("utf-8")[:name_limit]; record[8:8+len(encoded)]=encoded
-    if target_game=="YW1":
+    encoded=nickname.encode("utf-8")[:name_limit]
+    while encoded:
+        try: encoded.decode("utf-8"); break
+        except UnicodeDecodeError: encoded=encoded[:-1]
+    name_offset=28 if target_game=="YW4" else 8
+    record[name_offset:name_offset+len(encoded)]=encoded
+    if target_game=="YW4":
+        record[72:76]=target_id.to_bytes(4,"little")
+        struct.pack_into("<I",record,132,xp)
+        struct.pack_into("<I",record,180,max(1,min(99,level)))
+        record[380]=record[389]=record[416]=1
+    elif target_game=="YW1":
         struct.pack_into("<I",record,XP_OFFSETS[target_game],xp)
         record[0x45:0x4A]=iv; record[0x4A:0x4F]=sc; record[0x54]=max(1,min(99,level)); record[0x55]=attitude; record[0x58:0x5C]=health
     elif target_game=="YW2":
@@ -312,7 +373,6 @@ def build_converted_record(source_game: str, target_game: str, species: str,
         # does share the legal 40-point IV representation with YW2/YW3.
         record[0x40:0x45]=iv; record[0x48]=max(1,min(99,level))
         tech_path=Path(__file__).resolve().parent/"data"/"busters2_technic.json"
-        import json
         moves=json.loads(tech_path.read_text(encoding="utf-8")).get(str(target_id),[])
         for offset,move in zip((0x28,0x2C,0x30),moves): struct.pack_into("<I",record,offset,move)
         rows=parse_native(target_game,destination)
@@ -321,7 +381,6 @@ def build_converted_record(source_game: str, target_game: str, species: str,
         struct.pack_into("<I",record,XP_OFFSETS[target_game],xp)
         record[0x40:0x44]=iv; record[0x49]=max(1,min(99,level))
         tech_path=Path(__file__).resolve().parent/"data"/"blasters_technic.json"
-        import json
         moves=json.loads(tech_path.read_text(encoding="utf-8")).get(str(target_id),[])
         for offset,move in zip((0x2C,0x30,0x34),moves): struct.pack_into("<I",record,offset,move)
         rows=parse_native(target_game,destination)
@@ -334,6 +393,7 @@ def insert_cross_game(source_game: str, target_game: str, species: str,
                       destination: Path, make_backup: bool=True) -> tuple[int,Path | None]:
     converted=build_converted_record(source_game,target_game,species,nickname,level,raw_record,destination)
     if target_game=="YW1": return insert_yw1(destination,converted,assign_numbers=True,make_backup=make_backup)
+    if target_game=="YW4": return insert_yw4(destination,converted,make_backup=make_backup)
     return insert_native(target_game,destination,converted,assign_numbers=True,make_backup=make_backup)
 
 
@@ -437,7 +497,98 @@ def _assign_yw1_numbers(data: bytearray, record_pos: int) -> None:
     number=max(used,default=-1)+1; struct.pack_into("<HH",data,record_pos,number,number+1)
 
 
+def parse_yw4(path: Path) -> list[dict]:
+    data=path.read_bytes()
+    if len(data)<MIN_YW4_SIZE:
+        raise AdapterError("File is too small for a Yo-kai Watch 4 data.bin save.")
+    names=_yw4_species_map(); result=[]
+    for slot in range(YW4_SLOTS):
+        pos=YW4_RECORD_OFFSET+slot*YW4_RECORD_SIZE
+        record=data[pos:pos+YW4_RECORD_SIZE]
+        ident=struct.unpack_from("<H",record,2)[0]
+        signature=int.from_bytes(record[72:76],"little")
+        if ident==0 and signature==0: continue
+        if ident==0 or signature==0:
+            raise AdapterError(f"YW4 slot {slot+1} has inconsistent identity fields.")
+        if sum(value!=0 for value in record)<100:
+            raise AdapterError(f"YW4 slot {slot+1} is an incomplete zero-built record. Restore its backup or repair it before loading the game.")
+        level=struct.unpack_from("<I",record,180)[0]
+        if not 1<=level<=99: raise AdapterError(f"Invalid YW4 level in slot {slot+1}.")
+        species=names.get(signature,f"Unknown #{signature:08X}")
+        nickname=_nickname(record[28:52])
+        result.append({"slot":slot,"species_id":signature,"species":species,
+                       "name":nickname or species,"nickname":nickname,"level":level,
+                       "xp":struct.unpack_from("<I",record,132)[0],
+                       "raw_record":base64.b64encode(record).decode("ascii")})
+    return result
+
+
+def _sync_yw4_index(data: bytearray, slot: int) -> None:
+    record_pos=YW4_RECORD_OFFSET+slot*YW4_RECORD_SIZE
+    index_pos=YW4_INDEX_OFFSET+slot*4
+    data[index_pos:index_pos+4]=data[record_pos:record_pos+4]
+    count=sum(struct.unpack_from("<H",data,YW4_RECORD_OFFSET+i*YW4_RECORD_SIZE+2)[0]>0 for i in range(YW4_SLOTS))
+    struct.pack_into("<I",data,YW4_COUNT_OFFSET,count)
+
+
+def _assign_yw4_numbers(data: bytearray, slot: int) -> None:
+    pos=YW4_RECORD_OFFSET+slot*YW4_RECORD_SIZE
+    used={struct.unpack_from("<H",data,YW4_RECORD_OFFSET+i*YW4_RECORD_SIZE+2)[0]
+          for i in range(YW4_SLOTS) if i!=slot}
+    # The six playable characters share the same ID2 namespace.
+    used.update(struct.unpack_from("<H",data,166627+i*YW4_RECORD_SIZE+2)[0] for i in range(6))
+    ident=next(value for value in range(1,0x10000) if value not in used)
+    struct.pack_into("<HH",data,pos,4096+slot,ident)
+    struct.pack_into("<I",data,pos+344,ident)
+
+
+def _write_yw4_verified(path: Path, data: bytes) -> None:
+    path.write_bytes(data)
+    parse_yw4(path)
+
+
+def remove_yw4(path: Path, slot: int, expected_raw: str, make_backup: bool=True) -> Path | None:
+    if not 0<=slot<YW4_SLOTS: raise AdapterError("Invalid YW4 slot.")
+    data=bytearray(path.read_bytes())
+    if len(data)<MIN_YW4_SIZE: raise AdapterError("File is too small for a Yo-kai Watch 4 data.bin save.")
+    pos=YW4_RECORD_OFFSET+slot*YW4_RECORD_SIZE; expected=base64.b64decode(expected_raw)
+    if bytes(data[pos:pos+YW4_RECORD_SIZE])!=expected:
+        raise AdapterError("The YW4 save changed since it was loaded. Reload it before transferring.")
+    saved=backup(path) if make_backup else None
+    data[pos:pos+YW4_RECORD_SIZE]=bytes(YW4_RECORD_SIZE); _sync_yw4_index(data,slot)
+    _write_yw4_verified(path,bytes(data)); return saved
+
+
+def insert_yw4(path: Path, raw_record: str, make_backup: bool=True) -> tuple[int,Path | None]:
+    record=base64.b64decode(raw_record)
+    if len(record)!=YW4_RECORD_SIZE: raise AdapterError("This is not a YW4 Yo-kai record.")
+    _validate_converted_record("YW4",record)
+    data=bytearray(path.read_bytes())
+    if len(data)<MIN_YW4_SIZE: raise AdapterError("File is too small for a Yo-kai Watch 4 data.bin save.")
+    for slot in range(YW4_SLOTS):
+        pos=YW4_RECORD_OFFSET+slot*YW4_RECORD_SIZE
+        if struct.unpack_from("<H",data,pos+2)[0]==0:
+            saved=backup(path) if make_backup else None
+            data[pos:pos+YW4_RECORD_SIZE]=record; _assign_yw4_numbers(data,slot); _sync_yw4_index(data,slot)
+            _write_yw4_verified(path,bytes(data)); return slot,saved
+    raise AdapterError("The YW4 save has no empty Yo-kai slots.")
+
+
 def parse_save(game: str, path: Path) -> list[dict]:
     if game == "YW1":
         return parse_yw1(path)
+    if game == "YW4":
+        return parse_yw4(path)
     return parse_native(game, path)
+
+
+def remove_save(game: str, path: Path, slot: int, expected_raw: str, make_backup: bool=True) -> Path | None:
+    if game=="YW1": return remove_yw1(path,slot,expected_raw,make_backup)
+    if game=="YW4": return remove_yw4(path,slot,expected_raw,make_backup)
+    return remove_native(game,path,slot,expected_raw,make_backup)
+
+
+def insert_same_game(game: str, path: Path, raw_record: str, make_backup: bool=True) -> tuple[int,Path | None]:
+    if game=="YW1": return insert_yw1(path,raw_record,make_backup=make_backup)
+    if game=="YW4": return insert_yw4(path,raw_record,make_backup=make_backup)
+    return insert_native(game,path,raw_record,make_backup=make_backup)

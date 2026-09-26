@@ -1,5 +1,5 @@
-('C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
- 'SAVES\\yokai-watch-bank\\build\\YoKaiWatchBank\\PYZ-00.pyz',
+('C:\\Users\\home '
+ 'pc\\Downloads\\ykw-bank-main\\build\\YoKaiWatchBank\\PYZ-00.pyz',
  [('Crypto',
    'C:\\Users\\home '
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\Crypto\\__init__.py',
@@ -201,8 +201,7 @@
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\_threading_local.py',
    'PYMODULE'),
   ('adapters',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\adapters.py',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\adapters.py',
    'PYMODULE'),
   ('argparse',
    'C:\\Users\\home '
@@ -241,8 +240,7 @@
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\copy.py',
    'PYMODULE'),
   ('crypto_all',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\crypto_all.py',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\crypto_all.py',
    'PYMODULE'),
   ('csv',
    'C:\\Users\\home '
@@ -389,24 +387,24 @@
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ftplib.py',
    'PYMODULE'),
   ('gamefix',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\__init__.py',
+   'C:\\Users\\home '
+   'pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\gamefix\\__init__.py',
    'PYMODULE'),
   ('gamefix.busters',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\busters.py',
+   'C:\\Users\\home '
+   'pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\gamefix\\busters.py',
    'PYMODULE'),
   ('gamefix.gansohonke',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\gansohonke.py',
+   'C:\\Users\\home '
+   'pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\gamefix\\gansohonke.py',
    'PYMODULE'),
   ('gamefix.shinuchi',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\shinuchi.py',
+   'C:\\Users\\home '
+   'pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\gamefix\\shinuchi.py',
    'PYMODULE'),
   ('gamefix.yw3',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\gamefix\\yw3.py',
+   'C:\\Users\\home '
+   'pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\gamefix\\yw3.py',
    'PYMODULE'),
   ('getopt',
    'C:\\Users\\home '
@@ -613,8 +611,7 @@
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\random.py',
    'PYMODULE'),
   ('save_crypto',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\save_crypto.py',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\save_crypto.py',
    'PYMODULE'),
   ('selectors',
    'C:\\Users\\home '
@@ -753,8 +750,7 @@
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\urllib\\response.py',
    'PYMODULE'),
   ('util',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\util.py',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\util.py',
    'PYMODULE'),
   ('uuid',
    'C:\\Users\\home '
@@ -816,13 +812,14 @@
    'C:\\Users\\home '
    'pc\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\xml\\sax\\xmlreader.py',
    'PYMODULE'),
+  ('yksm_bank',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\yksm_bank.py',
+   'PYMODULE'),
   ('yw1_dump',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\yw1_dump.py',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\yw1_dump.py',
    'PYMODULE'),
   ('yw_save',
-   'C:\\Users\\home pc\\Documents\\YO-KAI WATCH '
-   'SAVES\\yokai-watch-bank\\vendor\\yw_save\\yw_save.py',
+   'C:\\Users\\home pc\\Downloads\\ykw-bank-main\\vendor\\yw_save\\yw_save.py',
    'PYMODULE'),
   ('zipfile',
    'C:\\Users\\home '

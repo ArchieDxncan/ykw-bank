@@ -1,6 +1,7 @@
 import json
 import base64
 import sqlite3
+import struct
 import sys
 import tempfile
 import unittest
@@ -8,15 +9,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parents[1]))
 from app import App, BankDB, Yokai, sha256_file
-from adapters import MIN_YW1_SIZE, YW1_OFFSET, YW1_RECORD_SIZE, insert_yw1, parse_yw1, record_xp, remove_yw1
+from adapters import (MIN_YW1_SIZE, MIN_YW4_SIZE, YW1_OFFSET, YW1_RECORD_SIZE,
+                      YW4_COUNT_OFFSET, YW4_INDEX_OFFSET, YW4_RECORD_OFFSET,
+                      YW4_RECORD_SIZE, build_converted_record, insert_yw1,
+                      insert_yw4, parse_yw1, parse_yw4, record_xp, remove_yw1,
+                      remove_yw4, species_id_for)
 from save_crypto import encrypt_yw1, is_encrypted_yw1
+from yksm_bank import YKSMBankError, YKSMEntry, decode as decode_yksm, encode as encode_yksm
 
 
 class CoreTests(unittest.TestCase):
     def test_validation(self):
         y = Yokai.from_dict({"name":"Jibanyan","species":"Jibanyan","source_game":"yw1","level":12,"rank":"D"})
         self.assertEqual((y.source_game, y.level), ("YW1", 12))
-        with self.assertRaises(ValueError): Yokai.from_dict({"name":"x","source_game":"YW4"})
+        self.assertEqual(Yokai.from_dict({"name":"x","source_game":"YW4"}).source_game,"YW4")
+        with self.assertRaises(ValueError): Yokai.from_dict({"name":"x","source_game":"YWBAD"})
 
     def test_database_roundtrip(self):
         with tempfile.TemporaryDirectory() as d:
@@ -128,6 +135,9 @@ class CoreTests(unittest.TestCase):
         # another ID. Exact-name resolution must win over the reused ID.
         self.assertEqual(transfer_species_name("YW2","YW3","Sumodon"),"Sumodon")
         self.assertNotEqual(transfer_species_id("YW2","YW3","Sumodon"),952346640)
+        self.assertTrue(compatible_with("YW4","Jibanyan","YW1"))
+        self.assertTrue(compatible_with("YW3","Enma","YW4"))
+        self.assertFalse(compatible_with("YW4","Cadin","YW1"))
 
     def test_yw1_to_yw3_generates_legal_iv_allocation(self):
         from adapters import _converted_stats
@@ -219,6 +229,65 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(upward,bytes((20,10,10,10,0)))
         back,_=_converted_stats("YW3","BLASTERS",bytes(0x34)+upward+bytes(0x1B))
         self.assertEqual(back[0]//2+sum(back[1:]),40)
+
+    def test_yksm_bank_binary_roundtrip_and_crc(self):
+        raw=bytes(range(YW1_RECORD_SIZE))
+        entry=YKSMEntry(7,3,"YW1",0xB9F01A85,"Jibanyan","Jiba",25,5774,raw)
+        encoded=encode_yksm([entry])
+        self.assertEqual(encoded[:4],b"YKB1")
+        self.assertEqual(decode_yksm(encoded),[entry])
+        damaged=bytearray(encoded); damaged[-1]^=1
+        with self.assertRaises(YKSMBankError): decode_yksm(bytes(damaged))
+
+    def test_yw4_species_database_and_safe_alias(self):
+        from adapters import _yw4_species_map
+        self.assertGreaterEqual(len(_yw4_species_map()),800)
+        self.assertGreaterEqual(len(_yw4_species_map(healthy_only=True)),190)
+        self.assertEqual(species_id_for("YW4","Jibanyan"),int.from_bytes(bytes.fromhex("0c55646b"),"little"))
+        self.assertEqual(species_id_for("YW4","Lord Enma"),species_id_for("YW4","Enma"))
+
+    def test_yw4_parse_remove_insert_updates_index_and_count(self):
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/"data.bin"; data=bytearray(MIN_YW4_SIZE+1024)
+            record=bytearray(YW4_RECORD_SIZE); struct.pack_into("<HH",record,0,4096,1)
+            record[226:344]=bytes([1])*118
+            record[28:36]=b"Jibanyan"; record[72:76]=species_id_for("YW4","Jibanyan").to_bytes(4,"little")
+            struct.pack_into("<I",record,132,5774); struct.pack_into("<I",record,180,25); struct.pack_into("<I",record,344,1)
+            record[380]=record[389]=record[416]=1
+            data[YW4_RECORD_OFFSET:YW4_RECORD_OFFSET+YW4_RECORD_SIZE]=record
+            data[YW4_INDEX_OFFSET:YW4_INDEX_OFFSET+4]=record[:4]; struct.pack_into("<I",data,YW4_COUNT_OFFSET,1); path.write_bytes(data)
+            parsed=parse_yw4(path); self.assertEqual((parsed[0]["species"],parsed[0]["level"],parsed[0]["xp"]),("Jibanyan",25,5774))
+            remove_yw4(path,0,parsed[0]["raw_record"],make_backup=False)
+            self.assertEqual(parse_yw4(path),[]); self.assertEqual(path.read_bytes()[YW4_INDEX_OFFSET:YW4_INDEX_OFFSET+4],bytes(4))
+            slot,_=insert_yw4(path,parsed[0]["raw_record"],make_backup=False)
+            self.assertEqual(slot,0); self.assertEqual(parse_yw4(path)[0]["species"],"Jibanyan")
+            self.assertEqual(struct.unpack_from("<I",path.read_bytes(),YW4_COUNT_OFFSET)[0],1)
+
+    def test_yw4_rejects_old_zero_built_cross_game_record(self):
+        with tempfile.TemporaryDirectory() as d:
+            path=Path(d)/"data.bin"; data=bytearray(MIN_YW4_SIZE+1024)
+            record=bytearray(YW4_RECORD_SIZE); struct.pack_into("<HH",record,0,4096,1)
+            record[72:76]=species_id_for("YW4","Jibanyan").to_bytes(4,"little")
+            struct.pack_into("<I",record,180,25); record[380]=record[389]=record[416]=1
+            data[YW4_RECORD_OFFSET:YW4_RECORD_OFFSET+YW4_RECORD_SIZE]=record
+            data[YW4_INDEX_OFFSET:YW4_INDEX_OFFSET+4]=record[:4]; struct.pack_into("<I",data,YW4_COUNT_OFFSET,1); path.write_bytes(data)
+            from adapters import AdapterError
+            with self.assertRaisesRegex(AdapterError,"incomplete zero-built record"): parse_yw4(path)
+
+    def test_cross_game_record_to_yw4_keeps_level_and_xp(self):
+        with tempfile.TemporaryDirectory() as d:
+            source=bytearray(YW1_RECORD_SIZE); struct.pack_into("<I",source,0x38,4321); source[0x54]=42
+            source[0x45:0x4A]=bytes((2,2,2,2,2))
+            encoded=base64.b64encode(source).decode("ascii")
+            destination=Path(d)/"data.bin"; save=bytearray(MIN_YW4_SIZE+1024)
+            template=bytearray(YW4_RECORD_SIZE); template[226:344]=bytes([0xA5])*118
+            save[YW4_RECORD_OFFSET:YW4_RECORD_OFFSET+YW4_RECORD_SIZE]=template; destination.write_bytes(save)
+            converted=base64.b64decode(build_converted_record("YW1","YW4","Jibanyan","Jiba",42,encoded,destination))
+            self.assertEqual(len(converted),YW4_RECORD_SIZE)
+            self.assertEqual(struct.unpack_from("<I",converted,132)[0],4321)
+            self.assertEqual(struct.unpack_from("<I",converted,180)[0],42)
+            self.assertEqual(converted[72:76],species_id_for("YW4","Jibanyan").to_bytes(4,"little"))
+            self.assertEqual(converted[226:344],template[226:344])
 
 
 if __name__ == "__main__": unittest.main()

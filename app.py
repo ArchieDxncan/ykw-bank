@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import binascii
 import json
@@ -14,11 +15,12 @@ from datetime import datetime, timezone
 from pathlib import Path
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
-from adapters import AdapterError, backup, compatible_with, insert_cross_game, insert_native, insert_yw1, parse_save, record_xp, remove_native, remove_yw1
+from adapters import AdapterError, backup, compatible_with, insert_cross_game, insert_same_game, parse_save, record_xp, remove_save
+from yksm_bank import GAME_TO_CODE as YKSM_GAMES, YKSMBankError, YKSMEntry, load as load_yksm_bank, save as save_yksm_bank
 
 APP_NAME = "Yo-kai Watch Bank"
-VERSION = "0.5.1"
-GAMES = ("YW1", "YW2", "YW3", "BLASTERS", "BUSTERS2")
+VERSION = "0.6.1"
+GAMES = ("YW1", "YW2", "YW3", "BLASTERS", "BUSTERS2", "YW4")
 RANKS = ("E", "D", "C", "B", "A", "S")
 
 
@@ -140,6 +142,13 @@ class BankDB:
     def count(self) -> int:
         return self.conn.execute("SELECT COUNT(*) FROM yokai").fetchone()[0]
 
+    def find_yksm_id(self, yksm_id: int) -> str | None:
+        for row in self.conn.execute("SELECT id, metadata FROM yokai"):
+            try:
+                if int(json.loads(row["metadata"]).get("yksm_id",-1))==yksm_id:return row["id"]
+            except (ValueError,TypeError,json.JSONDecodeError): pass
+        return None
+
     def add_snapshot(self, game, region, original, stored, digest, size):
         self.conn.execute("INSERT INTO snapshots VALUES (?,?,?,?,?,?,?,?)",
             (str(uuid.uuid4()), game, region, original, str(stored), digest, size, utc_now()))
@@ -173,19 +182,19 @@ class ConfigureDialog(tk.Toplevel):
         self.result=None; self.vars={}; self.transient(parent); self.grab_set()
         body=ttk.Frame(self,padding=18); body.pack(fill="both",expand=True)
         ttk.Label(body,text="One save per game",font=("Segoe UI",14,"bold")).grid(row=0,column=0,columnspan=3,sticky="w")
-        ttk.Label(body,text="Select original game*.yw files exported from saves you own.",foreground="#667085").grid(row=1,column=0,columnspan=3,sticky="w",pady=(2,14))
+        ttk.Label(body,text="Select original game*.yw files, or YW4's UserData/AutoSave data.bin.",foreground="#667085").grid(row=1,column=0,columnspan=3,sticky="w",pady=(2,14))
         for row, game in enumerate(GAMES, start=2):
             ttk.Label(body,text=game,width=6).grid(row=row,column=0,sticky="w",pady=5)
             var=tk.StringVar(value=values.get(game,"")); self.vars[game]=var
             ttk.Entry(body,textvariable=var,width=58).grid(row=row,column=1,padx=8)
             ttk.Button(body,text="Browse…",command=lambda g=game:self.pick(g)).grid(row=row,column=2)
         note_row=2+len(GAMES)
-        ttk.Label(body,text="Encrypted saves are handled automatically. Keep the matching head.yw/head.yw_g\nbeside YW2, YW3, Blasters, and Busters 2 saves.",foreground="#9a3412").grid(row=note_row,column=0,columnspan=3,sticky="w",pady=(14,8))
+        ttk.Label(body,text="Encrypted 3DS saves are handled automatically; keep their matching head.yw/head.yw_g nearby.\nYW4 uses the unencrypted data.bin exported by Checkpoint or JKSV.",foreground="#9a3412").grid(row=note_row,column=0,columnspan=3,sticky="w",pady=(14,8))
         buttons=ttk.Frame(body); buttons.grid(row=note_row+1,column=0,columnspan=3,sticky="e")
         ttk.Button(buttons,text="Cancel",command=self.destroy).pack(side="right",padx=(8,0))
         ttk.Button(buttons,text="Save configuration",command=self.save).pack(side="right")
     def pick(self, game):
-        path=filedialog.askopenfilename(parent=self,title=f"Select {game} save",filetypes=[("Yo-kai saves","game*.yw *.yw *.bin"),("All files","*.*")])
+        path=filedialog.askopenfilename(parent=self,title=f"Select {game} save",filetypes=[("Yo-kai saves","game*.yw *.yw data.bin *.bin"),("All files","*.*")])
         if path:self.vars[game].set(path)
     def save(self):
         values={g:self.vars[g].get().strip() for g in GAMES}
@@ -217,7 +226,7 @@ class App(tk.Tk):
     def _build(self):
         header=ttk.Frame(self,padding=(20,14)); header.pack(fill="x")
         ttk.Label(header,text="Yo-kai Watch Bank",style="Title.TLabel").pack(side="left")
-        ttk.Label(header,text="Transfer Center  •  Main games + Blasters/Busters 2",foreground="#667085").pack(side="left",padx=18)
+        ttk.Label(header,text="Transfer Center  •  3DS + Yo-kai Watch 4",foreground="#667085").pack(side="left",padx=18)
         actions=ttk.Frame(header); actions.pack(side="right")
         ttk.Button(actions,text="Configure saves…",command=self.configure).pack(side="left",padx=4)
         self.discard_button=ttk.Button(actions,text="Discard changes",command=self.discard_changes,state="disabled"); self.discard_button.pack(side="left",padx=4)
@@ -255,6 +264,9 @@ class App(tk.Tk):
         ttk.Separator(transfer).pack(fill="x",pady=14)
         ttk.Button(transfer,text="Move to box…",command=self.move,width=18).pack(pady=4)
         ttk.Button(transfer,text="Export selected…",command=self.export_package,width=18).pack(pady=4)
+        ttk.Separator(transfer).pack(fill="x",pady=14)
+        ttk.Button(transfer,text="Import YKSM bank…",command=self.import_yksm,width=18).pack(pady=4)
+        ttk.Button(transfer,text="Export to YKSM…",command=self.export_yksm,width=18).pack(pady=4)
         ttk.Label(transfer,textvariable=self.pending_status,foreground="#9a3412",wraplength=145,justify="center").pack(pady=(22,0))
         ttk.Label(self,textvariable=self.status,relief="sunken",anchor="w",padding=(8,4)).pack(fill="x",side="bottom")
 
@@ -398,7 +410,7 @@ class App(tk.Tk):
         self._set_dirty()
         for row in rows:
             try:
-                (remove_yw1(Path(path),row["slot"],row["raw_record"],make_backup=False) if game=="YW1" else remove_native(game,Path(path),row["slot"],row["raw_record"],make_backup=False))
+                remove_save(game,Path(path),row["slot"],row["raw_record"],make_backup=False)
                 y=Yokai.from_dict({"name":row["name"],"species":row["species"],"nickname":row["nickname"],"source_game":game,"level":row["level"],"rank":"E","source_slot":str(row["slot"]+1),"metadata":{"raw_record":row["raw_record"],"species_id":row["species_id"],"binary_game":game,"xp":row["xp"]}})
                 self.db.upsert(y); completed.append(row["name"])
             except (OSError,AdapterError,ValueError) as exc: failures.append(f"{row['name']}: {exc}")
@@ -426,6 +438,7 @@ class App(tk.Tk):
             prompt+=f"\n\n{cross} require cross-game conversion. Species, nickname and level are preserved. IV distribution is translated into the destination's legal format; destination-only fields are rebuilt."
             if game=="BUSTERS2": prompt+=" Busters 2 has no per-Yo-kai XP or attitude fields."
             elif game=="BLASTERS": prompt+=" Blasters has no attitude field and uses four battle IV stats."
+            elif game=="YW4": prompt+=" YW4 keeps identity, nickname, level and XP; its separate combat fields start at safe defaults."
             else: prompt+=" XP and attitude are retained when the source format stores them."
         if failures: prompt+=f"\n\n{len(failures)} incompatible selection(s) will be skipped."
         if len(ready)>1 or cross:
@@ -433,7 +446,7 @@ class App(tk.Tk):
         completed=[]; self._set_dirty()
         for ident,y,raw,source_game in ready:
             try:
-                if source_game==game: slot,_=(insert_yw1(Path(path),raw,make_backup=False) if game=="YW1" else insert_native(game,Path(path),raw,make_backup=False))
+                if source_game==game: slot,_=insert_same_game(game,Path(path),raw,make_backup=False)
                 else: slot,_=insert_cross_game(source_game,game,y.species,y.nickname,y.level,raw,Path(path),make_backup=False)
                 self.db.delete([ident]); completed.append(f"{y.name} → slot {slot+1}")
             except (OSError,AdapterError,ValueError) as exc: failures.append(f"{y.name}: {exc}")
@@ -461,6 +474,53 @@ class App(tk.Tk):
         canonical=json.dumps(records,ensure_ascii=False,sort_keys=True,separators=(",",":")); payload["records_sha256"]=hashlib.sha256(canonical.encode()).hexdigest()
         Path(path).write_text(json.dumps(payload,ensure_ascii=False,indent=2),encoding="utf-8")
         self.status.set(f"Exported {len(records)} Yo-kai to {path}")
+
+    def import_yksm(self):
+        path=filedialog.askopenfilename(title="Import YKSM bank.ykb",filetypes=[("YKSM Yo-kai bank","*.ykb"),("All files","*.*")])
+        if not path:return
+        try:
+            entries=load_yksm_bank(Path(path)); imported=0
+            for entry in entries:
+                stable_id=self.db.find_yksm_id(entry.ident) or str(uuid.uuid5(uuid.NAMESPACE_OID,f"yksm:{entry.ident}"))
+                y=Yokai.from_dict({"id":stable_id,"name":entry.nickname or entry.species,"species":entry.species,
+                    "nickname":entry.nickname,"source_game":entry.game,"level":entry.level,"rank":"E",
+                    "metadata":{"raw_record":base64.b64encode(entry.raw_record).decode("ascii"),"species_id":entry.species_id,
+                                "binary_game":entry.game,"xp":entry.xp,"yksm_id":entry.ident,"yksm_sequence":entry.sequence}})
+                self.db.upsert(y); imported+=1
+            self.refresh()
+            messagebox.showinfo("YKSM import complete",f"Imported {imported} Yo-kai from bank.ykb.\n\nRe-importing the same YKSM entries updates them instead of cloning them.")
+        except (OSError,YKSMBankError,ValueError,TypeError,binascii.Error) as exc:
+            messagebox.showerror("YKSM import failed",str(exc))
+
+    def export_yksm(self):
+        ids=self._selected_in_view_order(self.tree)
+        if not ids:
+            messagebox.showinfo("Export to YKSM","Highlight one or more 3DS Yo-kai in the Local Bank view."); return
+        path=filedialog.asksaveasfilename(title="Export YKSM bank.ykb",defaultextension=".ykb",initialfile="bank.ykb",filetypes=[("YKSM Yo-kai bank","*.ykb")])
+        if not path:return
+        try:
+            entries=[]; used=set(); skipped=[]
+            for ident in ids:
+                y=self.db.get(ident); metadata=y.metadata; game=metadata.get("binary_game",y.source_game)
+                if game not in YKSM_GAMES:
+                    skipped.append(f"{y.name}: YKSM supports 3DS games only"); continue
+                encoded_raw=metadata.get("raw_record","") or ""
+                raw=base64.b64decode(encoded_raw,validate=True)
+                export_id=int(metadata.get("yksm_id") or int.from_bytes(hashlib.blake2b(y.id.encode(),digest_size=8).digest(),"little")) or 1
+                while export_id in used: export_id=(export_id+1)&0xFFFFFFFFFFFFFFFF or 1
+                used.add(export_id)
+                xp=int(metadata.get("xp",record_xp(game,encoded_raw)))
+                entries.append(YKSMEntry(export_id,len(entries)+1,game,int(metadata.get("species_id",0)),y.species,y.nickname,y.level,xp,raw))
+                if metadata.get("yksm_id")!=export_id:
+                    y.metadata["yksm_id"]=export_id; y.updated_at=utc_now(); self.db.upsert(y)
+            if not entries: raise YKSMBankError("No selected Yo-kai can be exported to YKSM")
+            save_yksm_bank(Path(path),entries)
+            detail=f"Exported {len(entries)} Yo-kai to {path}"
+            if skipped: detail+="\n\nSkipped:\n"+"\n".join(skipped[:8])
+            self.status.set(detail.splitlines()[0])
+            (messagebox.showwarning if skipped else messagebox.showinfo)("YKSM export complete",detail)
+        except (OSError,YKSMBankError,ValueError,TypeError,binascii.Error,struct.error) as exc:
+            messagebox.showerror("YKSM export failed",str(exc))
 
     def import_file(self):
         path=filedialog.askopenfilename(filetypes=[("Bank packages and JSON","*.ykbank *.json"),("All files","*.*")])
