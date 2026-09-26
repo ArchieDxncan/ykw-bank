@@ -13,11 +13,10 @@ A simple desktop tool for moving your Yo-kai between your saved games for
 
 - See your current game's Yo-kai and your Bank side by side
 - Check each Yo-kai's level and experience at a glance
-- Transfer to and from same generation (YW2 -> YW2)
-- Transfer to and from newer generations (YW1 -> YW3)
-- Transfer to and from older generations (YW3 -> YW2)
-- Import and export YKSM's native `bank.ykb` files
-- Bank Yo-kai from a YW4 `data.bin` save
+- Transfer to and from same generation (YW2 <-> YW2)
+- Transfer to and from newer generations (YW1 <-> YW4)
+- Transfer to and from older generations (YW3 <-> YW2)
+- Import and export to and from YKSM
 
 ## Notes
 - Nothing is ever duplicated — once you move a Yo-kai out of the Bank, it's
@@ -49,13 +48,13 @@ Moving a Yo-kai between two different games isn't a straight copy, the app
 has to rebuild that Yo-kai so it fits the new game's format. Here's roughly
 what survives the move and what doesn't:
 
-**Usually kept:**
+**What's kept:**
 - Nickname
 - Level
 - Experience
-- Personality/attitude (when moving between the main story games)
+- Personality/attitude
 
-**Usually lost, and reset to that game's defaults:**
+**What's lost, and reset to that game's defaults:**
 - Learned moves
 - Equipment
 - Any other extra details tied to how you originally got that Yo-kai
@@ -78,19 +77,3 @@ start with legal default IVs and temperament because YW4 has no equivalent
 Only species in the YW4 editor's tested 197-entry healthy roster are offered as
 cross-game destinations. Existing YW4 records from the full known signature
 list can still be deposited and restored to YW4 unchanged.
-
-YW4 empty roster slots contain required initialized defaults. Version 0.6.1
-preserves that complete slot template when creating a cross-game record and
-rejects the older incomplete zero-built records that could crash YW4 while
-loading a save.
-
-### YKSM bank interoperability
-
-- **Import YKSM bank…** reads YKSM's binary `bank.ykb`, validates its CRC-32,
-  and merges its entries into the Local Bank. Re-importing the same YKSM IDs
-  updates those entries instead of cloning them.
-- **Export to YKSM…** writes the highlighted 3DS entries in YKSM's native
-  `YKB1` format. YKSM's format supports YW1, YW2, YW3, Blasters, and Busters 2;
-  it does not have a YW4 game code.
-- Back up the existing SD-card file before replacing
-  `/3ds/YKSM/bank.ykb` with an exported bank.
